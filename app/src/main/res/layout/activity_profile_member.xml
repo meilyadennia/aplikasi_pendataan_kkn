@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- Header -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KKNLog"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="#FFD700" />
+
+                <ImageView
+                    android:id="@+id/btnProfile"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="230dp"
+                    android:src="@drawable/ic_profile"
+                    android:contentDescription="Profile Icon" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="left"/>
+
+        <!-- Avatar -->
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_profile"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:text="Edit Avatar"
+            android:textStyle="italic"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Input Fields -->
+        <EditText
+            android:id="@+id/etFullName"
+            android:hint="Full Name"
+            style="@style/KknInput" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:hint="Email"
+            style="@style/KknInput" />
+
+        <EditText
+            android:id="@+id/etStudentId"
+            android:hint="University Student ID"
+            style="@style/KknInput" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:hint="Phone Number"
+            style="@style/KknInput" />
+
+        <EditText
+            android:id="@+id/etGroupCode"
+            android:hint="Group Code"
+            style="@style/KknInput" />
+
+        <!-- Start Date -->
+        <EditText
+            android:id="@+id/etLocation"
+            style="@style/KknInput"
+            android:hint="KKN Location" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_border"
+            android:padding="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:src="@drawable/ic_calendar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="#FFD700" />
+
+            <EditText
+                android:id="@+id/etStartDate"
+                android:hint="Program Start Date"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="12dp"
+                android:textColorHint="#9B9090"/>
+        </LinearLayout>
+
+        <!-- End Date -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_border"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:src="@drawable/ic_calendar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="#FFD700" />
+
+            <EditText
+                android:id="@+id/etEndDate"
+                android:hint="Program End Date"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="12dp"
+                android:textColorHint="#9B9090"/>
+        </LinearLayout>
+
+        <!-- Buttons for Leader -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:text="Save Changes"
+                android:textSize="18dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFD700"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_yellow"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
