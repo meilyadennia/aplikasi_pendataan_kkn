@@ -28,8 +28,9 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Login success (dummy)", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LogbookActivity.class));
+                Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

@@ -30,8 +30,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Register success (dummy)", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LogbookActivity.class));
+                Intent intent = new Intent(RegisterActivity.this, LoginSuccessActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

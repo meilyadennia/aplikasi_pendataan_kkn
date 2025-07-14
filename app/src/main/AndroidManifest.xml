@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- Entry Point -->
-        <activity android:name=".OpenActivity"
+        <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +31,10 @@
         <activity android:name=".LogbookListActivity" />
         <activity android:name=".ProfileMemberActivity" />
         <activity android:name=".ProfileLeaderActivity" />
+        <activity android:name=".OpenActivity" />
+        <activity android:name=".LoginSuccessActivity" />
+        <activity android:name=".EditLogbookActivity" />
+        <activity android:name=".DetailLogbookActivity" />
 
     </application>
 

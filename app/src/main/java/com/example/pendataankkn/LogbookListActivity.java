@@ -1,82 +1,44 @@
 package com.example.pendataankkn;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.view.View;
-import android.graphics.Color;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 
 public class LogbookListActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    LogbookAdapter adapter;
+    ArrayList<LogbookModel> logbookList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_logbook_list);
 
-        ScrollView scrollView = new ScrollView(this);
-        scrollView.setBackgroundColor(Color.parseColor("#FFF9C4")); // soft yellow
+        recyclerView = findViewById(R.id.recyclerViewLogbook);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        LinearLayout container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.VERTICAL);
-        container.setPadding(24, 96, 24, 24);
+        Button btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(LogbookListActivity.this, LogbookActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
-        for (LogbookEntry entry : SessionManager.logbookList) {
-            LinearLayout card = new LinearLayout(this);
-            card.setOrientation(LinearLayout.VERTICAL);
-            card.setPadding(24, 24, 24, 24);
-            card.setBackgroundColor(Color.WHITE);
-            card.setElevation(8f);
-            card.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            card.setBackgroundResource(android.R.drawable.dialog_holo_light_frame);
+        // Simulasi data
+        logbookList = new ArrayList<>();
+        logbookList.add(new LogbookModel("Minggu 1", "2025-06-14", "Desa A", "Bersih-bersih lingkungan"));
+        logbookList.add(new LogbookModel("Minggu 2", "2025-06-21", "Desa B", "Pelatihan digital marketing"));
 
-            // Judul
-            TextView title = new TextView(this);
-            title.setText(entry.title);
-            title.setTextSize(25f);
-            title.setTextColor(Color.BLACK);
-            title.setPadding(24, 24, 24, 8);
-            title.setTypeface(null, android.graphics.Typeface.BOLD);
-
-            // Detail
-            TextView detail = new TextView(this);
-            detail.setText(
-                    "📅 " + entry.date + "\n" +
-                            "📍 " + entry.location + "\n\n" +
-                            entry.description
-            );
-            detail.setTextSize(16f);
-            detail.setPadding(24,24,24,8);
-            detail.setTextColor(Color.DKGRAY);
-
-            card.addView(title);
-            card.addView(detail);
-
-            // Gambar jika ada
-            if (entry.photoUri != null) {
-                ImageView img = new ImageView(this);
-                img.setImageURI(entry.photoUri);
-                img.setAdjustViewBounds(true);
-                img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, 500);
-                lp.setMargins(0, 16, 0, 0);
-                img.setLayoutParams(lp);
-                card.addView(img);
-            }
-
-            // Spacer antar logbook
-            View spacer = new View(this);
-            spacer.setLayoutParams(new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 32));
-
-            container.addView(card);
-            container.addView(spacer);
-        }
-
-        scrollView.addView(container);
-        setContentView(scrollView);
+        LogbookDAO dao = new LogbookDAO(this);
+        logbookList = dao.getAll();
+        adapter = new LogbookAdapter(logbookList, this, dao);
+        recyclerView.setAdapter(adapter);
     }
 }

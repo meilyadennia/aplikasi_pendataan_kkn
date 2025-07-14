@@ -19,11 +19,14 @@ public class LogbookActivity extends AppCompatActivity {
     private Button btnSubmit, btnLogbook;
     private ImageView imgPreview, btnProfile;
     private Uri imageUri = null;
+    LogbookDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logbook);
+
+        dao = new LogbookDAO(this);
 
         etDate = findViewById(R.id.etDate);
         etTitle = findViewById(R.id.etTitle);
@@ -31,12 +34,32 @@ public class LogbookActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnLogbook = findViewById(R.id.btnLogbook);
-        imgPreview = findViewById(R.id.imgPreview);
         btnProfile = findViewById(R.id.btnProfile);
 
-        imgPreview.setOnClickListener(v -> openGallery());
+        btnSubmit.setOnClickListener(v -> {
+            String date = etDate.getText().toString();
+            String title = etTitle.getText().toString();
+            String location = etLocation.getText().toString();
+            String description = etDescription.getText().toString();
 
-        btnSubmit.setOnClickListener(v -> submitLogbook());
+            if (title.isEmpty() || date.isEmpty()) {
+                Toast.makeText(this, "Isi minimal Title dan Date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LogbookModel logbook = new LogbookModel(title, date, location, description);
+            long result = dao.insert(logbook);
+
+            if (result != -1) {
+                Toast.makeText(this, "Logbook disimpan", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LogbookListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // agar back tidak kembali ke form
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Gagal menyimpan", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnLogbook.setOnClickListener(v ->
                 startActivity(new Intent(LogbookActivity.this, LogbookListActivity.class)));
