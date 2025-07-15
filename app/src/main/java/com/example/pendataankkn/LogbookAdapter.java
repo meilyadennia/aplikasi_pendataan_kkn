@@ -1,5 +1,6 @@
 package com.example.pendataankkn;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -60,12 +61,20 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
 
         // Delete: hapus dari database dan list
         holder.btnDelete.setOnClickListener(v -> {
-            dao.delete(item.getId()); // hapus dari SQLite
-            list.remove(position);   // hapus dari list lokal
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, list.size());
-            Toast.makeText(context, "Data dihapus", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(context)
+                    .setTitle("Konfirmasi Hapus")
+                    .setMessage("Apakah kamu yakin ingin menghapus logbook ini?")
+                    .setPositiveButton("Hapus", (dialog, which) -> {
+                        dao.delete(item.getId());
+                        list.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, list.size());
+                        Toast.makeText(context, "Data dihapus", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Batal", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
+
 
         // Edit: buka EditLogbookActivity
         holder.btnEdit.setOnClickListener(v -> {
