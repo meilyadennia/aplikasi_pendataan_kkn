@@ -1,20 +1,34 @@
 package com.example.pendataankkn;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditLogbookActivity extends AppCompatActivity {
 
     EditText etDate, etTitle, etLocation, etDescription;
-    Button btnUpdate;
+    Button btnUpdate, btnPickImage;
+    ImageView imgPreviewEdit;
     LogbookDAO dao;
     LogbookModel logbook;
     int logbookId;
+    String selectedImageUri = null;
+
+    private final ActivityResultLauncher<String> pickImageLauncher =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
+                if (uri != null) {
+                    selectedImageUri = uri.toString();
+                    imgPreviewEdit.setImageURI(uri);
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +42,8 @@ public class EditLogbookActivity extends AppCompatActivity {
         etLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
         btnUpdate = findViewById(R.id.btnUpdate);
+        btnPickImage = findViewById(R.id.btnPickImage);
+        imgPreviewEdit = findViewById(R.id.imgPreviewEdit);
 
         logbookId = getIntent().getIntExtra("logbook_id", -1);
 
@@ -44,8 +60,16 @@ public class EditLogbookActivity extends AppCompatActivity {
                 etDate.setText(logbook.getDate());
                 etLocation.setText(logbook.getLocation());
                 etDescription.setText(logbook.getDescription());
+                selectedImageUri = logbook.getImageUri();
+                if (selectedImageUri != null && !selectedImageUri.isEmpty()) {
+                    imgPreviewEdit.setImageURI(Uri.parse(selectedImageUri));
+                }
             }
         }
+
+        btnPickImage.setOnClickListener(v -> {
+            pickImageLauncher.launch("image/*");
+        });
 
         btnUpdate.setOnClickListener(v -> {
             String title = etTitle.getText().toString();
@@ -58,7 +82,7 @@ public class EditLogbookActivity extends AppCompatActivity {
                 return;
             }
 
-            LogbookModel updated = new LogbookModel(logbookId, title, date, location, description);
+            LogbookModel updated = new LogbookModel(logbookId, title, date, location, description, selectedImageUri);
             dao.update(updated);
 
             Toast.makeText(this, "Logbook berhasil diubah", Toast.LENGTH_SHORT).show();

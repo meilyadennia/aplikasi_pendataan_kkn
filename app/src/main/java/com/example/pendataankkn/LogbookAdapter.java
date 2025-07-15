@@ -2,16 +2,19 @@ package com.example.pendataankkn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.List;
 
 public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHolder> {
@@ -42,6 +45,19 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
         holder.tvLocation.setText(item.getLocation());
         holder.tvDescription.setText(item.getDescription());
 
+
+        // Tampilkan gambar jika ada
+        if (item.getImageUri() != null && !item.getImageUri().isEmpty()) {
+            File imageFile = new File(item.getImageUri());
+            if (imageFile.exists()) {
+                holder.imgPreview.setImageURI(Uri.fromFile(imageFile));
+            } else {
+                holder.imgPreview.setImageResource(android.R.drawable.ic_menu_gallery); // opsional default
+            }
+        } else {
+            holder.imgPreview.setImageResource(android.R.drawable.ic_menu_gallery); // jika tidak ada gambar
+        }
+
         // Delete: hapus dari database dan list
         holder.btnDelete.setOnClickListener(v -> {
             dao.delete(item.getId()); // hapus dari SQLite
@@ -51,7 +67,7 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
             Toast.makeText(context, "Data dihapus", Toast.LENGTH_SHORT).show();
         });
 
-        // Edit: buka EditLogbookActivity dan kirim ID logbook
+        // Edit: buka EditLogbookActivity
         holder.btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditLogbookActivity.class);
             intent.putExtra("logbook_id", item.getId());
@@ -64,6 +80,7 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
             intent.putExtra("date", item.getDate());
             intent.putExtra("location", item.getLocation());
             intent.putExtra("description", item.getDescription());
+            intent.putExtra("imageUri", item.getImageUri());
             context.startActivity(intent);
         });
 
@@ -77,6 +94,8 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDate, tvLocation, tvDescription;
         Button btnEdit, btnDelete, btnView;
+        ImageView imgPreview;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +106,7 @@ public class LogbookAdapter extends RecyclerView.Adapter<LogbookAdapter.ViewHold
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             btnView = itemView.findViewById(R.id.btnView);
+            imgPreview = itemView.findViewById(R.id.imgPreview);
         }
     }
 }

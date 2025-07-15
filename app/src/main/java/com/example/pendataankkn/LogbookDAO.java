@@ -20,6 +20,7 @@ public class LogbookDAO {
         values.put("date", logbook.getDate());
         values.put("location", logbook.getLocation());
         values.put("description", logbook.getDescription());
+        values.put("imageUri", logbook.getImageUri());
         return db.insert("logbook", null, values);
     }
 
@@ -32,7 +33,8 @@ public class LogbookDAO {
                     cursor.getString(cursor.getColumnIndexOrThrow("title")),
                     cursor.getString(cursor.getColumnIndexOrThrow("date")),
                     cursor.getString(cursor.getColumnIndexOrThrow("location")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("description"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("description")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("imageUri"))
             ));
         }
         return list;

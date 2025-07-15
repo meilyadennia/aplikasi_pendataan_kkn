@@ -33,8 +33,6 @@ public class LogbookListActivity extends AppCompatActivity {
 
         // Simulasi data
         logbookList = new ArrayList<>();
-        logbookList.add(new LogbookModel("Minggu 1", "2025-06-14", "Desa A", "Bersih-bersih lingkungan"));
-        logbookList.add(new LogbookModel("Minggu 2", "2025-06-21", "Desa B", "Pelatihan digital marketing"));
 
         LogbookDAO dao = new LogbookDAO(this);
         logbookList = dao.getAll();

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LogbookDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "kknlog.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_LOGBOOK = "logbook";
     public static final String COL_ID = "id";
@@ -14,6 +14,7 @@ public class LogbookDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_DATE = "date";
     public static final String COL_LOCATION = "location";
     public static final String COL_DESCRIPTION = "description";
+    public static final String COL_IMAGE_URI = "imageUri";
 
     public LogbookDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +27,8 @@ public class LogbookDatabaseHelper extends SQLiteOpenHelper {
                 COL_TITLE + " TEXT, " +
                 COL_DATE + " TEXT, " +
                 COL_LOCATION + " TEXT, " +
-                COL_DESCRIPTION + " TEXT)";
+                COL_DESCRIPTION + " TEXT," +
+                "imageUri TEXT)";
         db.execSQL(query);
     }
 
@@ -35,4 +37,5 @@ public class LogbookDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGBOOK);
         onCreate(db);
     }
+
 }
