@@ -23,6 +23,7 @@ public class LogbookActivity extends AppCompatActivity {
     private EditText etDate, etTitle, etLocation, etDescription;
     private Button btnSubmit, btnLogbook, btnUploadPhoto;
     private ImageView btnProfile, imgPreview;
+    private TextView tvKknlog;
     private Uri imageUri = null;
     private static final int REQUEST_IMAGE_PICK = 1;
     LogbookDAO dao;
@@ -43,6 +44,12 @@ public class LogbookActivity extends AppCompatActivity {
         btnProfile = findViewById(R.id.btnProfile);
         btnUploadPhoto = findViewById(R.id.btnUploadPhoto);
         imgPreview = findViewById(R.id.imgPreview);
+        tvKknlog = findViewById(R.id.kknlog);
+
+        tvKknlog.setOnClickListener(v -> {
+            Intent intent = new Intent(LogbookActivity.this, KknlogInfoActivity.class);
+            startActivity(intent);
+        });
 
         btnSubmit.setOnClickListener(v -> {
             String date = etDate.getText().toString();
